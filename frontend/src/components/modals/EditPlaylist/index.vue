@@ -9,18 +9,18 @@
 			<div
 				:class="{
 					'view-only': !isEditable(),
-					'edit-playlist-modal-inner-container': true
+					'custom-modal-body': true
 				}"
 			>
-				<div id="first-column">
+				<div class="left-section">
 					<div id="playlist-info-section" class="section">
 						<h3>{{ playlist.displayName }}</h3>
 						<h5>Song Count: {{ playlist.songs.length }}</h5>
 						<h5>Duration: {{ totalLength() }}</h5>
 					</div>
 
-					<div id="tabs-container">
-						<div id="tab-selection">
+					<div class="section tabs-container">
+						<div class="tab-selection">
 							<button
 								class="button is-default"
 								:class="{ selected: tab === 'settings' }"
@@ -77,7 +77,7 @@
 					</div>
 				</div>
 
-				<div id="second-column">
+				<div class="right-section">
 					<div id="rearrange-songs-section" class="section">
 						<div v-if="isEditable()">
 							<h4 class="section-title">Rearrange Songs</h4>
@@ -598,6 +598,29 @@ export default {
 	strong {
 		color: var(--light-grey-2);
 	}
+
+	.edit-playlist-modal.modal .modal-card-body .custom-modal-body {
+		.left-section {
+			#playlist-info-section {
+				background-color: var(--dark-grey-3) !important;
+				border: 0;
+			}
+			.tabs-container {
+				background-color: transparent !important;
+				.tab-selection .button {
+					background: var(--dark-grey);
+					color: var(--white);
+				}
+				.tab {
+					background-color: var(--dark-grey-3) !important;
+					border: 0;
+				}
+			}
+		}
+		.right-section .section {
+			border-radius: 5px;
+		}
+	}
 }
 
 .menu-list li {
@@ -622,60 +645,16 @@ export default {
 	}
 }
 
-#tabs-container {
-	// padding: 16px;
+.edit-playlist-modal .modal-card-body .custom-modal-body {
+	display: flex;
+	flex-wrap: wrap;
+	height: 100%;
 
-	#tab-selection {
-		display: flex;
-		// overflow-x: auto;
-		margin: 24px 10px 0 10px;
-		max-width: 100%;
+	&.view-only {
+		height: auto !important;
 
-		.button {
-			border-radius: 5px 5px 0 0;
-			border: 0;
-			text-transform: uppercase;
-			font-size: 14px;
-			color: var(--dark-grey-3);
-			background-color: var(--light-grey-2);
-			flex-grow: 1;
-			height: 32px;
-
-			&:not(:first-of-type) {
-				margin-left: 5px;
-			}
-		}
-
-		.selected {
-			background-color: var(--primary-color) !important;
-			color: var(--white) !important;
-			font-weight: 600;
-		}
-	}
-	.tab {
-		border: 1px solid var(--light-grey-3);
-		// padding: 15px;
-		border-radius: 0 0 5px 5px;
-	}
-}
-
-.edit-playlist-modal {
-	.edit-playlist-modal-inner-container {
-		display: flex;
-		flex-wrap: wrap;
-		height: 100%;
-		row-gap: 24px;
-
-		&.view-only {
-			height: auto !important;
-
-			#first-column {
-				flex-basis: 100%;
-			}
-
-			/deep/ .section {
-				max-width: 100% !important;
-			}
+		.left-section {
+			flex-basis: 100%;
 		}
 	}
 
@@ -683,15 +662,6 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	/deep/ .section {
-		padding: 15px !important;
-		margin: 0 10px;
-		max-width: 100%;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
 	}
 
 	.label {
@@ -703,14 +673,54 @@ export default {
 		width: 150px;
 	}
 
-	#first-column {
-		flex-basis: 550px;
+	.section {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: auto;
+		padding: 15px !important;
+		margin: 0 10px;
+	}
+
+	.left-section {
+		flex-basis: 50%;
 		height: 100%;
 		overflow-y: auto;
 		flex-grow: 1;
 
-		/deep/ .section {
-			width: auto;
+		.tabs-container {
+			padding: 15px 0 !important;
+			.tab-selection {
+				display: flex;
+				overflow-x: auto;
+
+				.button {
+					border-radius: 5px 5px 0 0;
+					border: 0;
+					text-transform: uppercase;
+					font-size: 14px;
+					color: var(--dark-grey-3);
+					background-color: var(--light-grey-2);
+					flex-grow: 1;
+					height: 32px;
+
+					&:not(:first-of-type) {
+						margin-left: 5px;
+					}
+				}
+
+				.selected {
+					background-color: var(--primary-color) !important;
+					color: var(--white) !important;
+					font-weight: 600;
+				}
+			}
+			.tab {
+				border: 1px solid var(--light-grey-3);
+				padding: 15px;
+				border-radius: 0 0 5px 5px;
+				margin: 0;
+			}
 		}
 
 		#playlist-info-section {
@@ -734,8 +744,8 @@ export default {
 		}
 	}
 
-	#second-column {
-		flex-basis: 650px;
+	.right-section {
+		flex-basis: 50%;
 		height: 100%;
 		overflow-y: auto;
 		flex-grow: 1;
@@ -744,6 +754,16 @@ export default {
 			.scrollable-list:not(:last-of-type) {
 				margin-bottom: 10px;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.edit-playlist-modal.modal .modal-card-body .custom-modal-body {
+		.left-section,
+		.right-section {
+			flex-basis: 100%;
+			height: auto;
 		}
 	}
 }

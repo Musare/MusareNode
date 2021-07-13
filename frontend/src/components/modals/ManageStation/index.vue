@@ -680,8 +680,27 @@ export default {
 
 <style lang="scss" scoped>
 .night-mode {
-	#about-station-container {
-		background-color: var(--dark-grey-3) !important;
+	.manage-station-modal.modal .modal-card-body .custom-modal-body {
+		.left-section {
+			#about-station-container {
+				background-color: var(--dark-grey-3) !important;
+				border: 0;
+			}
+			.section {
+				background-color: transparent !important;
+			}
+			.tab-selection .button {
+				background: var(--dark-grey);
+				color: var(--white);
+			}
+			.tab {
+				background-color: var(--dark-grey-3);
+				border: 0;
+			}
+		}
+		.right-section .section {
+			border-radius: 5px;
+		}
 	}
 }
 
@@ -704,6 +723,10 @@ export default {
 		height: 100%;
 		overflow-y: auto;
 		flex-grow: 1;
+
+		.section:first-child {
+			padding: 0 15px 15px !important;
+		}
 
 		#about-station-container {
 			padding: 20px;
@@ -827,7 +850,7 @@ export default {
 	.manage-station-modal.modal .modal-card-body .custom-modal-body {
 		.left-section,
 		.right-section {
-			flex-basis: unset;
+			flex-basis: 100%;
 			height: auto;
 		}
 	}
